@@ -1,0 +1,25 @@
+form > textarea {
+  background: transparent;
+  resize: none;
+  border: 0 none;
+  border-bottom: 5px solid rgba(0, 0, 0, 0.582);
+  width: 100%;
+  font-size: 38px;
+  outline: none;
+  font-weight: 600;
+  line-height: 24px;
+  /* position: absolute; */
+}
+
+form > div > button {
+  background-color: #4056A1;
+  border: none;
+  color: #FFFFFF;
+  padding: 5px 10px;
+}
+
+form > div {
+  font-family: 'Bungee', sans-serif;
+  display: flex;
+  justify-content: space-between;
+}
