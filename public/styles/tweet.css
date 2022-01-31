@@ -1,0 +1,50 @@
+
+.tweet {
+  border: 5px solid rgba(0, 0, 0, 0.582);
+  padding: 10px;
+  margin: 18px 0;
+  font-weight: 600;
+}
+
+.tweet:hover {
+  box-shadow: 8px 8px #C5CBE3;
+}
+
+.tweet p {
+  padding: 0 12px;
+}
+
+.tweet header span {
+  font-weight: initial;
+}
+
+.tweet .handle {
+  font-weight: 600;
+  color: #C5CBE3;
+}
+
+.tweet header,
+.tweet footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 24px;
+}
+
+.tweet footer {
+  font-size: 18px;
+  border-top: 5px solid rgba(0, 0, 0, 0.582);
+}
+
+.tweet footer span {
+  display: flex;
+  gap: 10px;
+}
+
+.tweet footer span i {
+  color: #4056A1;
+}
+
+.tweet footer span i:hover {
+  cursor: pointer;
+  color: #c97f00;
+}
