@@ -1,3 +1,5 @@
+@import 'base';
+
 body > header {
   display: flex;
   flex-direction: column;
@@ -6,7 +8,7 @@ body > header {
   padding-top: 12rem;
   justify-content: center;
   align-items: center;
-  background-color: #c97f00;
+  background-color: $primary-colour;
   background-image: url("../images/header-background.png");
 
   color: #FFFFFF;

@@ -1,3 +1,5 @@
+@import 'base';
+
 nav {
   display: flex;
   align-items: end;
@@ -15,7 +17,7 @@ nav {
   top: 0;
   
   > span {
-    font-family: 'Bungee', sans-serif;
+    font-family: $secondary-font;
     font-size: 5.76rem;
     text-shadow: 0 0 .3rem #000000;
   }
@@ -35,7 +37,7 @@ nav {
 
 @media screen and (min-width: 1024px) {
   nav {
-    background-color: #4056A1;
+    background-color: $secondary-colour;
     
     span {
       text-shadow: none;
