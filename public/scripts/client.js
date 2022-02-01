@@ -4,31 +4,6 @@
  * Reminder: Use (and do all your DOM work in) jQuery's document ready function
  */
 
-const template = [
-  {
-    "user": {
-      "name": "Newton",
-      "avatars": "https://i.imgur.com/73hZDYK.png",
-      "handle": "@SirIsaac"
-    },
-    "content": {
-      "text": "If I have seen further it is by standing on the shoulders of giants"
-    },
-    "created_at": 1643494518506
-  },
-  {
-    "user": {
-      "name": "Descartes",
-      "avatars": "https://i.imgur.com/nlhLi3I.png",
-      "handle": "@rd"
-    },
-    "content": {
-      "text": "Je pense , donc je suis"
-    },
-    "created_at": 1643580918506
-  }
-]
-
 const createTweetElement = tweetInfo => {
   const tweet = $(`<article class="tweet">
     <header>
@@ -57,13 +32,24 @@ const renderTweets = tweets => {
   }
 }
 
+const loadTweets = () => {
+  $.ajax('/tweets', { method: 'GET' })
+  .done(result => renderTweets(result))
+};
+
 $(document).ready(() => {
-  renderTweets(template);
+
+  loadTweets()
+
+
   $('.new-tweet form').on( "submit", function( e ) {
     e.preventDefault();
-    console.log($(this).serialize())
+    
     const data = $(this).serialize()
     $.ajax('/tweets/', {method: 'POST', data})
-    .done(result => console.log(result))
+    .done(() => {
+      $('#tweets').empty();
+      loadTweets();
+    })
   })
 })
