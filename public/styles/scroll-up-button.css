@@ -1,0 +1,15 @@
+.scroll-up-to-tweet {
+  display: none;
+  border: none;
+  width: 75px;
+  height: 75px;
+  border-radius: 100%;
+  background-color: red;
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+
+  cursor: pointer;
+  color: #FFFFFF;
+  font-size: 38px;
+}

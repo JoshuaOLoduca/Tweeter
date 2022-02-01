@@ -64,13 +64,34 @@ $(document).ready(() => {
     }, 10000)
   }
 
+  const scrollToPostElm = $elm => {
+    const endOfElm = $elm.outerHeight();
+    $('html, body').animate({
+      scrollTop: endOfElm
+    }, 500);
+  }
+
+  let shouldFocus = true;
+  const toggleTweetCompose = () => {
+    $newTweetElm.slideToggle('slow')
+
+    if (shouldFocus) {
+      scrollToPostElm($('body header'));
+      $inputHum.focus();
+      shouldFocus = false;
+      return;
+    }
+    $inputHum.blur();
+    shouldFocus = true;
+  }
+
   loadTweets()
   const $charCounterElm = $('output[name="counter"]')
   const $errorElm = $('#error')
   const $writeTweetElm = $('#write-tweet')
   const $newTweetElm = $('#new-tweet')
   const $inputHum = $('#tweet-text');
-  let shouldFocus = true;
+  const $scrollUp = $('.scroll-up-to-tweet');
 
 
   $errorElm.css('display', 'none')
@@ -78,16 +99,31 @@ $(document).ready(() => {
 
 
   $writeTweetElm.on("click", e => {
-    $newTweetElm.slideToggle('slow')
-    if (shouldFocus) {
+    toggleTweetCompose();
+  });
+  $scrollUp.on("click", e => {
+
+    scrollToPostElm($('body header'));
+    if (!shouldFocus) {
       $inputHum.focus();
-      shouldFocus = false;
       return;
     }
-    $inputHum.blur();
-    shouldFocus = true;
+    toggleTweetCompose();
   });
+  
+  $(window).scroll(function() {
+    const headerHeight = $('body header').outerHeight();
+    const $writeTweet = $('#write-tweet');
 
+    if (window.pageYOffset > headerHeight) {
+      $scrollUp.show();
+      $writeTweet.hide();
+      return;
+    }
+    $scrollUp.hide();
+    $writeTweet.show();
+  })
+  
   $('.new-tweet form').on( "submit", function( e ) {
     e.preventDefault();
 
