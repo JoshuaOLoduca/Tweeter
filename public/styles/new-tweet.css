@@ -1,34 +1,28 @@
-form > textarea {
+form textarea {
   background: transparent;
   resize: none;
   border: 0 none;
-  border-bottom: 5px solid rgba(0, 0, 0, 0.582);
+  border-bottom: 0.5rem solid rgba(0, 0, 0, 0.582);
   width: 100%;
-  font-size: 38px;
+  font-size: 3.8rem;
   outline: none;
   font-weight: 600;
-  line-height: 24px;
+  line-height: 2.4rem;
   /* position: absolute; */
 }
-
-form > div > button {
-  background-color: #4056A1;
-  border: none;
-  color: #FFFFFF;
-  padding: 5px 10px;
-}
-
-form > div {
-  font-family: 'Bungee', sans-serif;
+form div {
+  font-family: "Bungee", sans-serif;
   display: flex;
   justify-content: space-between;
 }
-
-.new-tweet {
-  margin-bottom: 50px;
-  height: 172px;
+form div button {
+  background-color: #4056A1;
+  border: none;
+  color: #FFFFFF;
+  padding: 0.5rem 1rem;
 }
 
-@media screen and (min-width: 1024px) {
-
+.new-tweet {
+  margin-bottom: 5rem;
+  height: 17.2rem;
 }

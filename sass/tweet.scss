@@ -1,0 +1,57 @@
+
+.tweet {
+  border: .5rem solid rgba(0, 0, 0, 0.582);
+  padding: 1rem 1.6rem;
+  margin: 1.8rem 0;
+  font-weight: 600;
+
+  &:hover {
+    box-shadow: .8rem .8rem #C5CBE3;
+  }
+
+  p {
+    padding: 0 2.4rem;
+  }
+  
+  header span {
+    font-weight: initial;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+  }
+  
+  .handle {
+    font-weight: 600;
+    color: #C5CBE3;
+  }
+  
+  header,
+  footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 2.4rem;
+  }
+
+  header {
+    padding-left: .6rem;
+  }
+
+  footer {
+    font-size: 1.8rem;
+    border-top: .5rem solid rgba(0, 0, 0, 0.582);
+    
+    span {
+      display: flex;
+      gap: 1rem;
+      
+      i {
+        color: #4056A1;
+        
+        &:hover {
+          cursor: pointer;
+          color: #c97f00;
+        }
+      }
+    }
+  }
+}

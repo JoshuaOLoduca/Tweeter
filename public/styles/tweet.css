@@ -1,56 +1,45 @@
-
 .tweet {
-  border: 5px solid rgba(0, 0, 0, 0.582);
-  padding: 10px 16px;
-  margin: 18px 0;
+  border: 0.5rem solid rgba(0, 0, 0, 0.582);
+  padding: 1rem 1.6rem;
+  margin: 1.8rem 0;
   font-weight: 600;
 }
-
 .tweet:hover {
-  box-shadow: 8px 8px #C5CBE3;
+  box-shadow: 0.8rem 0.8rem #C5CBE3;
 }
-
 .tweet p {
-  padding: 0 24px;
+  padding: 0 2.4rem;
 }
-
 .tweet header span {
   font-weight: initial;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 1.2rem;
 }
-
 .tweet .handle {
   font-weight: 600;
   color: #C5CBE3;
 }
-
 .tweet header,
 .tweet footer {
   display: flex;
   justify-content: space-between;
-  padding: 10px 24px;
+  padding: 1rem 2.4rem;
 }
-
 .tweet header {
-  padding-left: 6px;
+  padding-left: 0.6rem;
 }
-
 .tweet footer {
-  font-size: 18px;
-  border-top: 5px solid rgba(0, 0, 0, 0.582);
+  font-size: 1.8rem;
+  border-top: 0.5rem solid rgba(0, 0, 0, 0.582);
 }
-
 .tweet footer span {
   display: flex;
-  gap: 10px;
+  gap: 1rem;
 }
-
 .tweet footer span i {
   color: #4056A1;
 }
-
 .tweet footer span i:hover {
   cursor: pointer;
   color: #c97f00;
