@@ -44,13 +44,24 @@ $(document).ready(() => {
 
   $('.new-tweet form').on( "submit", function( e ) {
     e.preventDefault();
+
     const data = $(this).serialize()
     const tweet = data.split('=')[1];
 
+    const $charCounterElm = $('output[name="counter"]')
+    const charCounter = parseInt($charCounterElm.val());
+    
     if (!tweet) {
       alert('No tweet entered')
       return;
     }
+    if (charCounter < 0) {
+      alert('Tweet is too long!')
+      return;
+    }
+
+    $('#tweet-text').val('');
+    $charCounterElm.val(140);
 
     $.ajax('/tweets/', {method: 'POST', data})
     .done(() => {
