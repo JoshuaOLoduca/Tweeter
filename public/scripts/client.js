@@ -67,8 +67,26 @@ $(document).ready(() => {
   loadTweets()
   const $charCounterElm = $('output[name="counter"]')
   const $errorElm = $('#error')
+  const $writeTweetElm = $('#write-tweet')
+  const $newTweetElm = $('#new-tweet')
+  const $inputHum = $('#tweet-text');
+  let shouldFocus = true;
+
 
   $errorElm.css('display', 'none')
+  $newTweetElm.css('display', 'none')
+
+
+  $writeTweetElm.on("click", e => {
+    $newTweetElm.slideToggle('slow')
+    if (shouldFocus) {
+      $inputHum.focus();
+      shouldFocus = false;
+      return;
+    }
+    $inputHum.blur();
+    shouldFocus = true;
+  });
 
   $('.new-tweet form').on( "submit", function( e ) {
     e.preventDefault();
