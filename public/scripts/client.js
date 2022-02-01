@@ -65,9 +65,13 @@ $(document).ready(() => {
   }
 
   const scrollToPostElm = $elm => {
-    const endOfElm = $elm.outerHeight();
+    // const endOfElm = $elm.offset().top;
+    const endOfElm = $elm.position().top - newTweetHeight;
+
+    console.log($elm.height());
+
     $('html, body').animate({
-      scrollTop: endOfElm
+      scrollTop: endOfElm * .8
     }, 500);
   }
 
@@ -76,7 +80,8 @@ $(document).ready(() => {
     $newTweetElm.slideToggle('slow')
 
     if (shouldFocus) {
-      scrollToPostElm($('body header'));
+      scrollToPostElm($('#new-tweet'));
+
       $inputHum.focus();
       shouldFocus = false;
       return;
@@ -93,6 +98,8 @@ $(document).ready(() => {
   const $inputHum = $('#tweet-text');
   const $scrollUp = $('.scroll-up-to-tweet');
 
+  const errorElmHeight = $errorElm.outerHeight();
+  const newTweetHeight = $newTweetElm.outerHeight();
 
   $errorElm.css('display', 'none')
   $newTweetElm.css('display', 'none')
@@ -103,8 +110,9 @@ $(document).ready(() => {
   });
   $scrollUp.on("click", e => {
 
-    scrollToPostElm($('body header'));
+    // scrollToPostElm($('body header'));
     if (!shouldFocus) {
+      scrollToPostElm($('#new-tweet'));
       $inputHum.focus();
       return;
     }
@@ -113,9 +121,10 @@ $(document).ready(() => {
   
   $(window).scroll(function() {
     const headerHeight = $('body header').outerHeight();
+    const navHeight = $('nav').outerHeight();
     const $writeTweet = $('#write-tweet');
 
-    if (window.pageYOffset > headerHeight) {
+    if (window.pageYOffset > (headerHeight - navHeight)) {
       $scrollUp.show();
       $writeTweet.hide();
       return;
