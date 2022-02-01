@@ -28,13 +28,18 @@ const renderTweets = tweets => {
   const $tweetContainer = $('#tweets')[0];
 
   for (const tweet of tweets) {
-    $tweetContainer.append(createTweetElement(tweet));
+    $tweetContainer.prepend(createTweetElement(tweet));
   }
 }
 
 const loadTweets = () => {
   $.ajax('/tweets', { method: 'GET' })
   .done(result => renderTweets(result))
+};
+
+const loadLatestTweet = () => {
+  $.ajax('/tweets', { method: 'GET' })
+  .done(result => renderTweets([result[result.length-1]]))
 };
 
 $(document).ready(() => {
@@ -65,8 +70,7 @@ $(document).ready(() => {
 
     $.ajax('/tweets/', {method: 'POST', data})
     .done(() => {
-      $('#tweets').empty();
-      loadTweets();
+      loadLatestTweet();
     })
   })
 })
