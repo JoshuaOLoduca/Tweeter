@@ -7,10 +7,12 @@
 const createTweetElement = tweetInfo => {
   const tweet = $(`<article class="tweet">
     <header>
-      <span><img src="${tweetInfo.user.avatars}">${tweetInfo.user.name}</span>
+      <span><img src="${tweetInfo.user.avatars}">
+      ${$('<p>').text(tweetInfo.user.name)[0].innerHTML}
+      </span>
       <span class="handle">${tweetInfo.user.handle}</span>
     </header>
-    <p>${tweetInfo.content.text}</p>
+    ${$('<p>').text(tweetInfo.content.text)[0].outerHTML}
     <footer>
       <time>${timeago.format(new Date(tweetInfo.created_at))}</time>
       <span>
@@ -23,6 +25,17 @@ const createTweetElement = tweetInfo => {
 
   return tweet[0];
 };
+
+// Olderway of doing
+// ${$('<p>').text(tweetInfo.content.text)[0].outerHTML}
+// Used like so:
+//    const safeHTML = `<p>${escape(textFromUser)}</p>`;
+// 
+// const escape = function (str) {
+//   let div = document.createElement("div");
+//   div.appendChild(document.createTextNode(str));
+//   return div.innerHTML;
+// };
 
 const renderTweets = tweets => {
   const $tweetContainer = $('#tweets')[0];
