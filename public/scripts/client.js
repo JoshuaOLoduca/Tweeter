@@ -44,8 +44,14 @@ $(document).ready(() => {
 
   $('.new-tweet form').on( "submit", function( e ) {
     e.preventDefault();
-    
     const data = $(this).serialize()
+    const tweet = data.split('=')[1];
+
+    if (!tweet) {
+      alert('No tweet entered')
+      return;
+    }
+
     $.ajax('/tweets/', {method: 'POST', data})
     .done(() => {
       $('#tweets').empty();
