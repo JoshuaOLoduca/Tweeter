@@ -1,7 +1,7 @@
 
 .tweet {
   border: 5px solid rgba(0, 0, 0, 0.582);
-  padding: 10px;
+  padding: 10px 16px;
   margin: 18px 0;
   font-weight: 600;
 }
@@ -11,11 +11,14 @@
 }
 
 .tweet p {
-  padding: 0 12px;
+  padding: 0 24px;
 }
 
 .tweet header span {
   font-weight: initial;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .tweet .handle {
@@ -28,6 +31,10 @@
   display: flex;
   justify-content: space-between;
   padding: 10px 24px;
+}
+
+.tweet header {
+  padding-left: 6px;
 }
 
 .tweet footer {
