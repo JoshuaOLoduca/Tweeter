@@ -4,7 +4,97 @@
  * Reminder: Use (and do all your DOM work in) jQuery's document ready function
  */
 $(document).ready(() => {
-  const createTweetElement = tweetInfo => {
+
+  // variables are from global-elements.js
+
+  const { toggleTweetCompose, getShouldFocus } = toggleTweetComposeWrapper();
+  const newTweetHeight = $newTweetElm.outerHeight();
+
+  configureElements();
+  loadTweets();
+  registerEventListeners();
+
+
+  // configures elements to be animated later
+  function configureElements() {
+    $errorElm.css('display', 'none');
+    $newTweetElm.css('display', 'none');
+  }
+  
+  function registerEventListeners() {
+    // on Navbar, when "write a new tweet"
+    // is clicked, show/hide tweet compose
+    $writeTweetElm.on("click", () => {
+      toggleTweetCompose();
+    });
+  
+    // scrolls user to compose tweet and focuses it
+    // expands compose tweet if its not visible
+    $scrollUpBtn.on("click", () => {
+      if (!getShouldFocus()) {
+        scrollToPostElm($('#new-tweet'), newTweetHeight);
+        $inputHum.focus();
+        return;
+      }
+      toggleTweetCompose();
+    });
+    
+    // on scroll of webpage, check to see if navbar and scrollUpBtn should be visible or not
+    $(window).scroll(function() {
+      updateDynamicNavButtons();
+    });
+    
+    // prevents form submit and uses ajax to send data
+    $('.new-tweet form').on("submit", function(e) {
+
+      e.preventDefault();
+      const data = $(this).serialize();
+      const tweet = data.split('=')[1];
+      const charCounter = parseInt($charCounterElm.val());
+      
+      if (!tweet) {
+        showError('No tweet to tweet');
+        return;
+      }
+      if (charCounter < 0) {
+        showError('Tweet is too long!');
+        return;
+      }
+  
+      postTweetAjax('/tweets/', data);
+    });
+  }
+
+  // sends data to ajax and loads tweet when done
+  function postTweetAjax(url, data) {
+    $errorElm.slideUp("slow");
+
+    $('#tweet-text').val('');
+    $charCounterElm.val(140);
+
+    $.ajax(url, {method: 'POST', data})
+      .done(() => {
+        loadLatestTweet();
+      });
+  }
+
+  // on call, checks to see if navbar and scrollUpBtn should be visible or not
+  function updateDynamicNavButtons() {
+    const headerHeight = $('body header').outerHeight();
+    const navHeight = $('nav').outerHeight();
+    const $writeTweet = $('#write-tweet');
+
+    if (window.pageYOffset > (headerHeight - navHeight)) {
+      $scrollUpBtn.show();
+      $writeTweet.hide();
+      return;
+    }
+    $scrollUpBtn.hide();
+    $writeTweet.show();
+  }
+
+  // creates tweet element for dom
+  function createTweetElement(tweetInfo) {
     const tweet = $(`<article class="tweet">
       <header>
         <span><img src="${tweetInfo.user.avatars}">
@@ -24,139 +114,77 @@ $(document).ready(() => {
     </article>`);
 
     return tweet[0];
-  };
+  }
 
   // Olderway of doing
   // ${$('<p>').text(tweetInfo.content.text)[0].outerHTML}
   // Used like so:
   //    const safeHTML = `<p>${escape(textFromUser)}</p>`;
-  // 
+  //
   // const escape = function (str) {
   //   let div = document.createElement("div");
   //   div.appendChild(document.createTextNode(str));
   //   return div.innerHTML;
   // };
 
-  const renderTweets = tweets => {
+  // renders tweets in reverse-chronological order
+  function renderTweets(tweets) {
     const $tweetContainer = $('#tweets')[0];
-
     for (const tweet of tweets) {
-      $tweetContainer.prepend(createTweetElement(tweet));
+      $tweetContainer.append(createTweetElement(tweet));
     }
   }
 
-  const loadTweets = () => {
+  // sends ajax request to get tweets from in-memory db
+  function loadTweets() {
     $.ajax('/tweets', { method: 'GET' })
-    .done(result => renderTweets(result))
-  };
+      .done(result => renderTweets(result));
+  }
 
-  const loadLatestTweet = () => {
+  // gets latest tweet from database
+  function loadLatestTweet() {
     $.ajax('/tweets', { method: 'GET' })
-    .done(result => renderTweets([result[result.length-1]]))
-  };
+      .done(result => renderTweets([result[result.length - 1]]));
+  }
 
-  const showError = error => {
+  // shows error div (above compose tweet) with error message
+  function showError(error) {
     $errorElm.children().text(error);
     $errorElm.slideDown("slow");
 
     setTimeout(() => {
-    $errorElm.slideUp("slow");
-    }, 10000)
+      $errorElm.slideUp("slow");
+    }, 10000);
   }
 
-  const scrollToPostElm = $elm => {
-    // const endOfElm = $elm.offset().top;
-    const endOfElm = $elm.position().top - newTweetHeight;
-
-    console.log($elm.height());
-
+  // scrolls to element and leaves more headroom the bigger negativeOffset is
+  function scrollToPostElm($elm, negativeOffset) {
+    const endOfElm = $elm.position().top - negativeOffset;
     $('html, body').animate({
       scrollTop: endOfElm * .8
     }, 500);
   }
 
-  let shouldFocus = true;
-  const toggleTweetCompose = () => {
-    $newTweetElm.slideToggle('slow')
+  // Wraps up toggleTweetCompose so it can have a bool for a closure
+  function toggleTweetComposeWrapper() {
+    let shouldFocus = true;
 
-    if (shouldFocus) {
-      scrollToPostElm($('#new-tweet'));
+    const getShouldFocus = () => shouldFocus;
 
-      $inputHum.focus();
-      shouldFocus = false;
-      return;
-    }
-    $inputHum.blur();
-    shouldFocus = true;
+    // Shows/hides tweet composer and sets/removes focus of composer
+    const toggleTweetCompose = () => {
+      $newTweetElm.slideToggle('slow');
+
+      if (shouldFocus) {
+        scrollToPostElm($('#new-tweet'), newTweetHeight);
+
+        $inputHum.focus();
+        shouldFocus = false;
+        return;
+      }
+      $inputHum.blur();
+      shouldFocus = true;
+    };
+    return { toggleTweetCompose, getShouldFocus };
   }
-
-  loadTweets()
-  const $charCounterElm = $('output[name="counter"]')
-  const $errorElm = $('#error')
-  const $writeTweetElm = $('#write-tweet')
-  const $newTweetElm = $('#new-tweet')
-  const $inputHum = $('#tweet-text');
-  const $scrollUp = $('.scroll-up-to-tweet');
-
-  const errorElmHeight = $errorElm.outerHeight();
-  const newTweetHeight = $newTweetElm.outerHeight();
-
-  $errorElm.css('display', 'none')
-  $newTweetElm.css('display', 'none')
-
-
-  $writeTweetElm.on("click", e => {
-    toggleTweetCompose();
-  });
-  $scrollUp.on("click", e => {
-
-    // scrollToPostElm($('body header'));
-    if (!shouldFocus) {
-      scrollToPostElm($('#new-tweet'));
-      $inputHum.focus();
-      return;
-    }
-    toggleTweetCompose();
-  });
-  
-  $(window).scroll(function() {
-    const headerHeight = $('body header').outerHeight();
-    const navHeight = $('nav').outerHeight();
-    const $writeTweet = $('#write-tweet');
-
-    if (window.pageYOffset > (headerHeight - navHeight)) {
-      $scrollUp.show();
-      $writeTweet.hide();
-      return;
-    }
-    $scrollUp.hide();
-    $writeTweet.show();
-  })
-  
-  $('.new-tweet form').on( "submit", function( e ) {
-    e.preventDefault();
-
-    const data = $(this).serialize()
-    const tweet = data.split('=')[1];
-    const charCounter = parseInt($charCounterElm.val());
-    
-    if (!tweet) {
-      showError('No tweet to tweet')
-      return;
-    }
-    if (charCounter < 0) {
-      showError('Tweet is too long!')
-      return;
-    }
-
-    $errorElm.slideUp("slow");
-
-    $('#tweet-text').val('');
-    $charCounterElm.val(140);
-
-    $.ajax('/tweets/', {method: 'POST', data})
-    .done(() => {
-      loadLatestTweet();
-    })
-  })
-})
+});

@@ -1,11 +1,20 @@
 $(document).ready(function() {
-  // --- our code goes here ---
-  const $charCounterElm = $('output[name="counter"]')
-  const charCounter = parseInt($charCounterElm.val());
-  const $inputHum = $('#tweet-text');
+  
+  // variables are from global-elements.js
 
-  $inputHum.on("input",(event) => {
+  // on input, update tweet limit tracker
+  $inputHum.on("input",() => {
     const curHumLength = $inputHum.val().length;
-    $charCounterElm.val(charCounter - curHumLength);
+    const newVal = charCounter - curHumLength;
+
+    $charCounterElm.val(newVal);
+
+    // if we are negitive, change colour to red
+    if (newVal < 0) {
+      $charCounterElm.css('color', 'red');
+      return;
+    }
+    // otherwise, restore color
+    $charCounterElm.css('color', charCounterColour);
   });
 });
