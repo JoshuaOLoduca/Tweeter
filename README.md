@@ -50,5 +50,6 @@ to a folder
 2. cd into folder and run ```npm install```
 3. run ```npm start``` to spin up a testing server\
 OR ```npm run local``` to spin up a development server with nodemon
+4. access in web browser @ http://localhost:8080
 
 If developing, run ```npm sass-watch``` to compile sass templates in real time.
