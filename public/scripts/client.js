@@ -49,7 +49,7 @@ $(document).ready(() => {
 
       e.preventDefault();
       const data = $(this).serialize();
-      const tweet = data.split('=')[1];
+      const tweet = data.split('=')[1].replaceAll('%20', ' ').trim();
       const charCounter = parseInt($charCounterElm.val());
       
       if (!tweet) {
