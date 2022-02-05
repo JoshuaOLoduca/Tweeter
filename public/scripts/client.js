@@ -131,7 +131,7 @@ $(document).ready(() => {
   function renderTweets(tweets) {
     const $tweetContainer = $('#tweets')[0];
     for (const tweet of tweets) {
-      $tweetContainer.append(createTweetElement(tweet));
+      $tweetContainer.prepend(createTweetElement(tweet));
     }
   }
 
